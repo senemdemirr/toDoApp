@@ -48,7 +48,6 @@ class TaskController extends Controller
             [
                 'title' => 'required|string|max:255',
                 'description' => 'nullable|string',
-                'is_done' => 'nullable|boolean'
             ],
             [
                 'title.required' => 'Title field is required.',
