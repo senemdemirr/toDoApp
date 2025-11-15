@@ -14,19 +14,26 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request -> validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
+        $validated = $request->validate(
+            [
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+            ],
+            [
+                'title.required' => 'Title field is required.',
+                'title.max' => 'The title can be max 255 characters.'
+            ]
+
+        );
 
         Task::create([
             'title' => $validated['title'],
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? null,
             'is_done' => false
 
         ]);
 
-        return redirect()-> route('tasks.index')->with('success', 'Task added succesfully');
+        return redirect()->route('tasks.index')->with('success', 'Task added succesfully');
     }
 
 
@@ -37,20 +44,25 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task)
     {
-        $validated = $request -> validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'is_done' => 'nullable|boolean'
-        ]);
+        $validated = $request->validate(
+            [
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'is_done' => 'nullable|boolean'
+            ],
+            [
+                'title.required' => 'Title field is required.',
+                'title.max' => 'The title can be max 255 characters.'
+            ]
+        );
 
-        $task -> update([
+        $task->update([
             'title' => $validated['title'],
             'description' => $validated['description'],
-            'is_done' => $request -> has('is_done')
+            'is_done' => $request->has('is_done')
         ]);
 
-        return redirect()->route('tasks.index')->with('success','Successfully uptadeted the task');
-
+        return redirect()->route('tasks.index')->with('success', 'Successfully uptadeted the task');
     }
 
     public function destroy(Task $task)
