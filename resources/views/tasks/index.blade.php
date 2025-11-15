@@ -25,9 +25,7 @@
                     <label for="description" class="form-label">Description</label>
                     <textarea name="description" id="description" rows="3"
                         class="form-control @error('description') is-invalid @enderror"
-                    >
-                        {{old('description')}}
-                    </textarea>
+                    >{{old('description')}}</textarea>
                     @error('description')
                         <div class="invalid-feedback">
                             {{$message}}
